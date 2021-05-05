@@ -73,4 +73,27 @@ export class Watchers {
     }
   }
 
+  public static async startWatcher({ id }: { id: string }): Promise<any> {
+    try {
+      const running = Watchers.runningWatchers.find(w => w.id === id);
+      if (running) return { msg: 'Watcher already running' };
+      const watcher = await WatcherModel.findOne({ id });
+      if (!watcher) return `Watcher ${id} not found`;
+
+      const instance = <Watcher>(
+        new (<any>watcherClasses)[watcher.type]((<any>watcher)._doc)
+      );
+      await instance.init();
+      instance.setInflux(this.influx);
+      instance.run().catch(error => {
+        throw error;
+      });
+
+      Watchers.runningWatchers.push(instance);
+      return { msg: `Watcher ${id} started` };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
