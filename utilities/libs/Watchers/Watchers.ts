@@ -23,6 +23,16 @@ export class Watchers {
 	public static runningWatchers: Watcher[] = [];
 	public static influx: Influx;
 
+  public static async getWatchers(): Promise<IWatcherConfig[]> {
+    try {
+      const watchers: IWatcherModel[] = await WatcherModel.find();
+      return watchers.map((w: any) => <IWatcherConfig>w._doc);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   public static async createWatcher({
     watcherConfig,
   }: {
