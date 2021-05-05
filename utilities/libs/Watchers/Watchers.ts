@@ -10,7 +10,7 @@ import {
 	watcherConfigurationExist,
 	stopWatchers,
 } from './helpers';
-import {Influx} from '../influx';
+import { Influx } from '../influx';
 const MEASUREMENT_OHLC = 'OHLC';
 
 /**
@@ -22,6 +22,23 @@ const MEASUREMENT_OHLC = 'OHLC';
 export class Watchers {
 	public static runningWatchers: Watcher[] = [];
 	public static influx: Influx;
+  /**
+   * Restart every watcher
+   *
+   * @static
+   * @param {Request} request
+   * @returns {Promise<any>}
+   * @memberof Watchers
+   */
+  public static async restartAllWatchers(): Promise<any> {
+    try {
+      await restartWatchers(this.influx);
+      return { msg: 'Watcher Started' };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 
   public static async stopAllWatchers(): Promise<any> {
     try {
@@ -51,6 +68,23 @@ export class Watchers {
       await WatcherModel.collection.drop();
       Watchers.runningWatchers = [];
       return { msg: 'Watcher Deleted' };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  public static async getWatcher({
+    id,
+  }: {
+    id: string;
+  }): Promise<IWatcherConfig> {
+    try {
+      const watcher = await WatcherModel.findOne({ id });
+      if (!watcher) {
+        throw `Watcher ${id} not found`;
+      }
+      return watcher;
     } catch (error) {
       console.error(error);
       throw error;
