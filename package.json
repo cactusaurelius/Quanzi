@@ -41,10 +41,13 @@
     "uuid": "^3.4.0"
   },
   "dependencies": {
+    "@influxdata/influxdb-client": "^1.10.0",
+    "@influxdata/influxdb-client-apis": "^1.11.0",
     "@types/jest": "^25.1.4",
     "@types/mkdirp": "^1.0.0",
     "ccxt": "^1.39.1",
     "i": "^0.3.6",
+    "influx": "^5.7.0",
     "moleculer": "^0.14.0",
     "moment": "^2.22.2",
     "mongoose": "^5.11.18",
