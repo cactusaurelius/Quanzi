@@ -96,4 +96,45 @@ export class Watchers {
       throw error;
     }
   }
+
+  public static async stopWatcher({ id }: { id: string }): Promise<any> {
+    try {
+      const running = Watchers.runningWatchers.find(w => w.id === id);
+      if (running) {
+        await running.stop();
+        const runningIdx = Watchers.runningWatchers
+          .map(w => w.id)
+          .indexOf(running.id);
+        Watchers.runningWatchers.splice(runningIdx, 1);
+      }
+      return { msg: `Watcher ${id} stopped` };
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  }
+
+  public static async deleteWatcher({
+    id,
+    flush,
+  }: {
+    id: string;
+    flush: boolean;
+  }): Promise<any> {
+    try {
+      const running = Watchers.runningWatchers.find(w => w.id === id);
+      if (running) {
+        await running.stop(Boolean(flush) === true ? true : false);
+        const runningIdx = Watchers.runningWatchers
+          .map(w => w.id)
+          .indexOf(running.id);
+        Watchers.runningWatchers.splice(runningIdx, 1);
+      }
+      await WatcherModel.findOneAndDelete({ id });
+      return { msg: `Watcher ${id} stopped` };
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  }
 }
