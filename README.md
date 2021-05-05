@@ -7,7 +7,7 @@ This is a [Moleculer](https://moleculer.services/)-based microservices project. 
 Start the project with `npm run dev` command. Run terminal commands for respective moleculer actions.
 
 In the terminal, try the following commands:
-- Create new watcher `call createWatcher --type MarketWatcher --base BTC --quote USDT --exchange binance`
+- Create new watcher `call watchers.createWatcher**** --type MarketWatcher --base BTC --quote USDT --exchange binance`
 -
 
 
@@ -34,3 +34,4 @@ In the terminal, try the following commands:
 - `npm test`: Run tests & generate coverage report
 - `npm run dc:up`: Start the stack with Docker Compose
 - `npm run dc:down`: Stop the stack with Docker Compose
+****
