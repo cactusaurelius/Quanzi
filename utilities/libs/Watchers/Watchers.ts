@@ -23,10 +23,34 @@ export class Watchers {
 	public static runningWatchers: Watcher[] = [];
 	public static influx: Influx;
 
+  public static async stopAllWatchers(): Promise<any> {
+    try {
+      await stopWatchers();
+      return { msg: 'Watcher Stopped' };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
   public static async getWatchers(): Promise<IWatcherConfig[]> {
     try {
       const watchers: IWatcherModel[] = await WatcherModel.find();
       return watchers.map((w: any) => <IWatcherConfig>w._doc);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  public static async deleteWatchers(): Promise<any> {
+    try {
+      for (const watcher of Watchers.runningWatchers) {
+        await watcher.stop();
+      }
+      await WatcherModel.collection.drop();
+      Watchers.runningWatchers = [];
+      return { msg: 'Watcher Deleted' };
     } catch (error) {
       console.error(error);
       throw error;
