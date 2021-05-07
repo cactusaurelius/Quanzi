@@ -1,5 +1,5 @@
 export function tagsToString(tags: { [name: string]: string }): string {
-  return Object.entries(tags)
-    .map(([key, val]) => `|> filter(fn: (r) => r["${key}"] == "${val}")`)
-    .join('');
+  return `|> filter(fn: (r) =>${Object.entries(tags)
+    .map(([key, val]) => `r["${key}"] == "${val}"`)
+    .join(' and ')})`;
 }

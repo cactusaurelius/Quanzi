@@ -127,4 +127,12 @@ export default class WatchersService extends Service {
     const { id, flush = false } = ctx.params;
     return Watchers.deleteWatcher({ id, flush });
   }
+  /**
+   * Test action get ohlc
+   * @param { id:string }
+   */
+  @Action({})
+  getOHLC(ctx: Context<{ id: string; flush: boolean }>) {
+    return Watchers.influx.getOHLC();
+  }
 }

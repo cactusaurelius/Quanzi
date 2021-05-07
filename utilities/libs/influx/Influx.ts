@@ -78,6 +78,20 @@ export class Influx {
   }
 
   /**
+   * Find series missing points
+   * @param {string} measurement
+   * @param {{[name: string]: string}} tags (symbol, ...)
+   * @param {string} [aggregatedTime='1m']
+   * @returns {string[]} Array of timestamp where data is missing
+   * @memberof Influx
+   */
+  public async getSeriesGap(
+    measurement: string,
+    tags?: { [name: string]: string },
+    aggregatedTime: string = '1m'
+  ) {}
+
+  /**
    * Get OHLC from influx db group by the specified aggregation time (minutes by default)
    *
    * @param {{ symbol: string }} tags
@@ -85,9 +99,35 @@ export class Influx {
    * @memberof Influx
    */
   public async getOHLC(
-    tags: { base: string; quote: string; exchange: string },
-    aggregatedTime: string = '1m'
-  ) {}
+    aggregatedTime: string = '1m',
+    tags: { base: string; quote: string; exchange: string } = {
+      base: 'BTC',
+      quote: 'USDT',
+      exchange: 'binance',
+    }
+  ) {
+    const fluxQuery = `from(bucket: "candles")
+      |> range(start: 0)
+      |> filter(fn: (r) => r["_measurement"] == "OHLCV")
+      ${tagsToString(tags)}
+      |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+      // TODO: window aggregation last(close) first(open) max(high) min(low)
+    `;
+    return new Promise((resolve, reject) => {
+      const res: any = [];
+      this.influxQuery.queryRows(fluxQuery, {
+        next(row: string[], tableMeta: FluxTableMetaData) {
+          res.push(tableMeta.toObject(row));
+        },
+        error(error: Error) {
+          reject(error);
+        },
+        complete() {
+          resolve(res);
+        },
+      });
+    });
+  }
 
   /**
    * Create bucket if it doesn't exist
