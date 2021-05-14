@@ -35,3 +35,7 @@ In the terminal, try the following commands:
 - `npm run dc:up`: Start the stack with Docker Compose
 - `npm run dc:down`: Stop the stack with Docker Compose
 ****
+
+## Docker
+
+- `docker build . -t quanzi`: Build docker image with tag quanzi
