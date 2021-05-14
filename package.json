@@ -13,10 +13,7 @@
     "ci": "jest --watch",
     "test": "jest --coverage",
     "lint": "eslint --ext .js,.ts .",
-    "lint:fix": "eslint --ext .js,.ts . --fix",
-    "dc:up": "docker-compose up --build -d",
-    "dc:logs": "docker-compose logs -f",
-    "dc:down": "docker-compose down"
+    "lint:fix": "eslint --ext .js,.ts . --fix"
   },
   "keywords": [
     "microservices",
@@ -31,7 +28,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-prefer-arrow": "^1.2.2",
+    "eslint-plugin-prefer-arrow": "^.2.2",
     "jest": "^25.1.0",
     "jest-cli": "^25.1.0",
     "moleculer-decorators": "^1.3.0",
