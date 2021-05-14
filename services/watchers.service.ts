@@ -1,7 +1,7 @@
 import { Service as DService, Action, Method } from 'moleculer-decorators';
 import { Service, Errors, Context } from 'moleculer';
 import { Watchers } from '../utilities/libs/Watchers/Watchers';
-import { Influx } from '../utilities/libs/Influx';
+import { Influx } from '../utilities/libs/influx';
 const { MoleculerError } = Errors;
 
 Watchers.influx = new Influx({

@@ -1,6 +1,6 @@
 import * as uuid from 'uuid';
 import { WatcherModel } from './model';
-import { Influx } from '../../Influx/Influx';
+import { Influx } from '../../influx/influx';
 import { logger } from '../../../logger';
 import { sleep, sendMail } from '../../helpers';
 

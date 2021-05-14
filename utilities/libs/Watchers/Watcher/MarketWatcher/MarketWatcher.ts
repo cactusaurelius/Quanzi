@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { sleep } from '../../../helpers';
-import { IWatcherConfig, Watcher } from '../Base';
+import { IWatcherConfig, Watcher } from '../base';
 import { Exchange, OHLCV } from '../../../Exchange/Exchange';
 import { logger } from '../../../../logger';
 

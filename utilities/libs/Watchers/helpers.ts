@@ -1,4 +1,4 @@
-import { Influx } from '../Influx';
+import { Influx } from '../influx';
 import { Watcher, watcherClasses } from './Watcher';
 import { Watchers } from './Watchers';
 
